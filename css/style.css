@@ -1,37 +1,45 @@
 
 header 
-         {
-             padding-left: 240px;
-         }
+{
+    padding-left: 240px;
+}
 main
-         {
-             padding-left: 240px;
-         }
+{
+    padding-left: 240px;
+}
 .oli
-         {
-             width: 80%; 
-         }
+{
+    width: 80%; 
+}
 .aladito
-         {
-             padding: 0px 10px;
+{
+    padding: 0px 10px;
 
-         }
+}
 #logo-container
-        {
-            padding: 40px 0px;
-            border-radius: 30px;
-         }
+{
+    padding: 40px 0px;
+    border-radius: 30px;
+}
 .send
-         {
-             padding: 0px 20px;
-         }
+{
+    padding: 0px 20px;
+}
 #example-messages
-         {
-             height: 400px;  
-             overflow: auto;
-         }
+{
+    height: 400px;  
+    overflow: auto;
+}
 .logo
-         {
-             text-align: center;
-         }
-       
+{
+    text-align: center;
+}
+.hidden-menu{
+    display: none !important;
+}
+.logo-chat{
+    border: solid 4px black;
+    border-radius: 50%;
+    width: 70%;
+    margin-left: 30px;
+}

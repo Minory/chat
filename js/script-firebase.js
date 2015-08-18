@@ -43,3 +43,11 @@
              //SCROLL TO BOTTOM OF MESSAGE LIST
              messageList[0].scrollTop = messageList[0].scrollHeight;
          });
+
+          $('.menu-options-more').hover(function(){
+                $('#menu-initial').removeClass("hidden-menu");
+         });
+
+         $('.menu-options-more').mouseleave(function(){
+             $('#menu-initial').addClass("hidden-menu");
+             
