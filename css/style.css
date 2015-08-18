@@ -1,0 +1,37 @@
+
+header 
+         {
+             padding-left: 240px;
+         }
+main
+         {
+             padding-left: 240px;
+         }
+.oli
+         {
+             width: 80%; 
+         }
+.aladito
+         {
+             padding: 0px 10px;
+
+         }
+#logo-container
+        {
+            padding: 40px 0px;
+            border-radius: 30px;
+         }
+.send
+         {
+             padding: 0px 20px;
+         }
+#example-messages
+         {
+             height: 400px;  
+             overflow: auto;
+         }
+.logo
+         {
+             text-align: center;
+         }
+       
