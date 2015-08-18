@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+         <!-- Compiled and minified CSS bueno esto es solo para traer el css de materialize  -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+        <!-- Compiled and minified JavaScript y esto es el javascript de materialize si quieres prueba entrando a esa url bueno como viste es solo codigo javascript no hay que preocuparnos muchode qeu dice ahi si no mas bien de como usarlo, y eso esta en la documentacion, otra cosa ese .min significa que el archivo es la version minificada, osea esta como comprimida, es la version para 'producion' del  archivo la version normal tiene comentarios del propio desarrolador, ese archivo si se puede leer, pero la version minificada no, esta totalmente comprimida xD no tiene ni saltos de linea ni comentarios, ni nada para que pese menos asi, la web cargara mas rapido ayabueno ahora-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+        <!--ASi se hacen comentarios en html -->
+        <!-- Esto igualmente trae firebase.js para poder hacer nuestras conexiones con nuestro backend que nos proporciona firebase -->
+        <script src="https://cdn.firebase.com/js/client/1.1.1/firebase.js"></script>
+
+        <style>
+         header
+         {
+             padding-left: 240px;
+         }
+         main
+         {
+             padding-left: 240px;
+         }
+         .oli
+         {
+             width: 80%;
+         }
+         .aladito
+         {
+             padding: 0px 10px;
+
+         }
+        #logo-container
+        {
+            padding: 40px 0px;
+            border-radius: 30px;
+         }
+         .send
+         {
+             padding: 0px 20px;
+         }
+         #example-messages
+         {
+             height: 400px;
+             overflow: auto;
+         }
+         .logo
+         {
+             text-align: center;
+         }
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div class="nav-wrapper aladito">
+
+                    <a href="#" class="brand-logo">Chat</a>
+                    <ul id="nav-mobile" class="right side-nav">
+
+                    </ul>
+                </div>
+            </nav>
+            <ul id="nav-mobile" class="side-nav fixed">
+                <li class="logo"><img id="logo-container" src="photo.jpg" class="brand-logo oli">
+                    <li class="bold"><a href="#">Chat</a></li>
+                    <li class="bold"><a href="#">Proyectos</a></li>
+                    <li class="bold"><a href="#">Album de musicas</a></li>
+            </ul>
+        </header>
+
+        <main>
+            <div class="section" id ="index-banner"></div>
+            <div class="container">
+                <div class="buysellads hide-on-small-only">
+
+                </div>
+                <div class="row grey lighten-3" > <!-- Note that "m8 l9" was added -->
+
+                    <div>
+                        <!-- CHAT MARKUP esas clases son algunas que nos da materializem dime chiza que cosa? xD crei que tratabas de decir algo jajajaja estas clases donde estan en este lugar -->
+                        <div class="z-depth-2 example-chat l-demo-container">
+                            <div class='send example-chat-toolbar'>
+                                <input type='text' id='nameInput' placeholder='Nick'>
+                            </div>
+                            <ul id='example-messages' class="send example-chat-messages"></ul>
+                            <div class="send red lighten-1">
+                                <input type='text' id='messageInput'  placeholder='Escribe un mensaje...'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- CHAT JAVACRIPT -->
+        <script>
+         // CREATE A REFERENCE TO FIREBASE, con esto hacemos la conexion a firebase
+         var messagesRef = new Firebase('https://torrid-heat-6215.firebaseio.com');
+
+         // REGISTER DOM ELEMENTS, aqui estamos tomando los elementos del html y les estamo asignando una variable
+         var messageField = $('#messageInput');
+         var nameField = $('#nameInput');
+         var messageList = $('#example-messages');
+
+         // LISTEN FOR KEYPRESS EVENT, bueno esto es cuando se quiere detectar algo en este caso, es el enter, su codigo es el 13 por eso dice .keyCode ==13 , entonces si se preciona enter va pasar esto
+         messageField.keypress(function (e) {
+             if (e.keyCode == 13) {
+                 //FIELD VALUES
+                 var username = nameField.val(); //saca el valor del #nameInput
+                 var message = messageField.val(); //saca el valor del mensaje que esta escrito
+
+                 //SAVE DATA TO FIREBASE AND EMPTY FIELD
+                 messagesRef.push({name:username, text:message}); // Luego, hace un push a la base de datos ese push es un metodo implementado con firebase.js que agregamos, envia el nombre y el mensaje, y luego 
+                 messageField.val(''); // con esto resetea el valor de lo que habiamos escrito y lo deja en blanco despues de presionar enter, es una cadena vacia
+             }
+         });
+
+         // Add a callback that is triggered for each chat message. alguna duda hasta ahora? NO :d oki
+
+         // recurda que messageRef, es practicamente tu base de datos o backend mira
+         // bueno aqui dice que el limite de mensajes visibles en el documento va ser 10, y que se va ir agregagando ese 'on' crea un elemetno child_added cada vez que alguien presiona enter
+         messagesRef.limit(10).on('child_added', function (snapshot) {
+             //GET DATA
+             var data = snapshot.val();
+             var username = data.name || "Intruso"; //el username puede ser uno que nosotros hayamos puesto y si no se pone ahi indican que sera un "anonymous "
+             var message = data.text; // ya ahora, bueno esto es igual con el mensaje que escribimos
+
+             //CREATE ELEMENTS MESSAGE & SANITIZE TEXT, esto crea elementos en el DOM, osea, los crea nada mas para poder visualizar los mensajes que envias, y otros envian 
+             var messageElement = $("<li class='emotico'>"); //esto esta raro xD, chiza? si alguna pregunta?
+              //vamos a analizar como esta esto en nuestra web
+             var nameElement = $("<strong class='example-chat-username'></strong>")
+                 nameElement.text(username + "   : ");
+             messageElement.text(message).prepend(nameElement);
+            // $(".emotico").emoticonize();
+             //ADD MESSAGE
+             messageList.append(messageElement)
+
+             //SCROLL TO BOTTOM OF MESSAGE LIST
+             messageList[0].scrollTop = messageList[0].scrollHeight;
+         });
+
+
+        </script>
+
+    </body>
+</html>
