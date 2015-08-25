@@ -17,6 +17,10 @@
          //SAVE DATA TO FIREBASE AND EMPTY FIELD
          messagesRef.push({name:username, text:message}); // Luego, hace un push a la base de datos ese push es un metodo implementado con firebase.js que agregamos, envia el nombre y el mensaje, y luego 
          messageField.val(''); // con esto resetea el valor de lo que habiamos escrito y lo deja en blanco despues de presionar enter, es una cadena vacia
+         // #Hola #Noticaicon
+         if(message[0]==="#"){
+            notificar(message,username); 
+         }
      }
  });
 
@@ -51,4 +55,23 @@
  $('.menu-options-more').mouseleave(function(){
      $('#menu-initial').addClass("hidden-menu");
 });
+
+ function notificar(m,u) {
+        myrequest();
+        var img_konata = "http://www.polyvore.com/cgi/img-thing?.out=jpg&size=l&tid=4118927"
+        var notification = new Notification(u, {icon: img_konata ,body : m.slice(1)
+                                               });
+        setTimeout(function(){
+            notification.close();
+        },3000);
+    };
+    function myrequest(){
+        if (Notification && Notification.permission !== "granted") {
+            Notification.requestPermission(function (status) {
+                if (Notification.permission !== status) {
+                    Notification.permission = status;
+                }
+            });
+        }
+    }
 
